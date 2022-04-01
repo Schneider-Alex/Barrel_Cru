@@ -77,10 +77,10 @@ class Partner:
 
 #READ model
     @classmethod
-    def get_all_coaches(cls):  
+    def get_all_partners(cls):  
         query = """
         SELECT *
-        FROM coaches
+        FROM partners
         ;"""
         result = connectToMySQL(cls.db).query_db(query)
         coaches = []
