@@ -1,0 +1,31 @@
+{
+  "name": "barrel_cru",
+  "version": "1.0.0",
+  "description": "Application for Alcohol Distributors/Customers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Schneider-Alex/Barrel_Cru.git"
+  },
+  "keywords": [
+    "reactjs"
+  ],
+  "author": "Alex Schneider",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Schneider-Alex/Barrel_Cru/issues"
+  },
+  "homepage": "https://github.com/Schneider-Alex/Barrel_Cru#readme",
+  "dependencies": {
+    "babel-loader": "^8.2.4",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "webpack": "^5.71.0",
+    "webpack-dev-server": "^4.7.4"
+  }
+}
