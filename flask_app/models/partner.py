@@ -72,10 +72,10 @@ class Partner:
         Insert INTO partners (name, email, password, phone_number, address)
         VALUES (%(name)s, %(email)s,%(password)s, %(phone_number)s, %(address)s)
         ;'''
-        coach_id = connectToMySQL(cls.db).query_db(query,data)
+        partner_id = connectToMySQL(cls.db).query_db(query,data)
         # # session['coach']=True
         # # removed this functionality so that coaches must log in after creating account
-        return coach_id
+        return partner_id
 
     @classmethod
     def get_partner_by_email(cls, data):
