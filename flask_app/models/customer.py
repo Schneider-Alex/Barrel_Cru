@@ -3,25 +3,27 @@ from flask import flash, session, request
 from flask_app import app
 import re	# the regex module
 from flask_bcrypt import Bcrypt   
-# from flask_app.models import 
+from flask_app.models import company
 
 bcrypt = Bcrypt(app)
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
 PASSWORD_REGEX = re.compile(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$')
 NAME_REGEX = re.compile('^(/^[A-Za-z]+$/)')
+PHONE_REGEX = re.compile(".*?(\(?\d{3}\D{0,3}\d{3}\D{0,3}\d{4}).*?")
 
  #CREATE model
 class Customer:
     db = 'Barrel_Cru'
     def __init__(self, data): 
         self.id = data['id']
-        self.name = data['name']
+        self.first_name = data['first_name']
+        self.last_name = data['last_name']
         self.email = data['email']
         # self.password = data['password']
         self.phone_number=data['phone_number']
         self.address=data['address']
-        self.company=data['customer_company_id']
+        self.company_id=data['company_id']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
@@ -32,8 +34,11 @@ class Customer:
     @staticmethod
     def validate_submission(input):
         is_valid = True
-        if len(input['name']) < 1:
-            flash('name must enter at least 1 characters', 'register')
+        if len(input['first_name']) < 1:
+            flash('First name must enter at least 1 characters', 'register')
+            is_valid = False
+        if len(input['last_name']) < 1:
+            flash('Last name must enter at least 1 characters', 'register')
             is_valid = False
         if not PASSWORD_REGEX.match(input['password']):
             flash('password needs to be at least 8 characters and contains at least one number, one uppercase character,  and one special character', 'register')
@@ -41,22 +46,50 @@ class Customer:
         if input['password'] != input['confirm_password']:
             flash('passwords do not match', 'register')
             is_valid = False
+        if not PHONE_REGEX.match(input['phone_number']):
+            flash('phone number must be in the form 123-456-7890', 'register')
+            is_valid = False
         if not EMAIL_REGEX.match(input['email']): 
             flash("Invalid email address!", 'register')
             is_valid = False   
-        if Customer.get_partner_by_email(input):
+        if Customer.get_customer_by_email(input):
             flash('An account already exists with this email', 'register')
             is_valid = False
         return is_valid
 
+    @staticmethod
+    def customer_parsed_data(data):
+        print("??????????????????????????????????",data)
+        parsed_data={
+            'first_name': data['first_name'],
+            'last_name': data['last_name'],
+            'email': data['email'].lower().strip(),
+            'password' : bcrypt.generate_password_hash(data['password']),
+            'phone_number': data['phone_number'],
+            'address' : data['address'],
+            'company_id': data['company_id']
+        }
+        if data['new_company_name']:
+            parsed_data['new_company_name'] = data['new_company_name']
+            parsed_data['company_id']=company.Company.register_company(data)
+        return parsed_data
+
     @classmethod
     def register_customer(cls, data):
+        print ("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", data)
         if not cls.validate_submission(data):
             return False
-        data = cls.parsed_data(data)
+        print('********************************************',data)
+        data = cls.customer_parsed_data(data)
+        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',data)
+        if data['company_id'] == '':
+            data['company_id']= None 
+        if data['company_id'] == 'New':
+            data['company_id']=company.Company.register_company(data['new_company_name'])
+        #     data['company_id']=company.Company.register_company(data(new_company_name))
         query= '''
-        Insert INTO customers (first_name, last_name, email, password)
-        VALUES (%(first_name)s, %(last_name)s, %(email)s,%(password)s)
+        Insert INTO customers (first_name, last_name, email, password,phone_number,address,company_id)
+        VALUES (%(first_name)s, %(last_name)s, %(email)s,%(password)s,%(phone_number)s,%(address)s,%(company_id)s)
         ;'''
         coach_id = connectToMySQL(cls.db).query_db(query,data)
         session['coach_id'] = coach_id
@@ -66,7 +99,7 @@ class Customer:
         return coach_id
 
     @classmethod
-    def get_partner_by_email(cls, data):
+    def get_customer_by_email(cls, data):
         query= '''
         SELECT *
         FROM customers

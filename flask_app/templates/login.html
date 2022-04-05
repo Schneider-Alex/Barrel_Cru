@@ -5,20 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <script defer type="text/javascript" src="{{ url_for('static', filename='script.js')}}"
+    ></script>
 </head>
 
 <body>
-    {% with messages = get_flashed_messages(category_filter=['register']) %}
-                    <!-- declare a variable called messages -->
-                    {% if messages %}
-                    <!-- check if there are any messages -->
-                    {% for message in messages %}
-                    <!-- loop through the messages -->
-                    <p>{{message}}</p>
-                    <!-- display each message in a paragraph tag -->
-    {% endfor %} {% endif %} {% endwith %}
+    <div class=flash>
+        {% with messages = get_flashed_messages(category_filter=['register']) %}
+                        <!-- declare a variable called messages -->
+                        {% if messages %}
+                        <!-- check if there are any messages -->
+                        {% for message in messages %}
+                        <!-- loop through the messages -->
+                        <p>{{message}}</p>
+                        <!-- display each message in a paragraph tag -->
+        {% endfor %} {% endif %} {% endwith %}
+    </div>
     <p>here</p>
     {%if session['login']=='partner'%}
+    <div>
         <h2>New Partner</h2>
         <form action='/partner/register' method="post">
             <label for="name">Name</label>
@@ -36,15 +41,17 @@
             <input type="submit" value="Register New Partner Account">
         </form>
         <h2>Returning Partner</h2>
-        {% with messages = get_flashed_messages(category_filter=['login']) %}
-                    <!-- declare a variable called messages -->
-                    {% if messages %}
-                    <!-- check if there are any messages -->
-                    {% for message in messages %}
-                    <!-- loop through the messages -->
-                    <p>{{message}}</p>
-                    <!-- display each message in a paragraph tag -->
-    {% endfor %} {% endif %} {% endwith %}
+        <div class=flash>
+            {% with messages = get_flashed_messages(category_filter=['login']) %}
+                <!-- declare a variable called messages -->
+                {% if messages %}
+                <!-- check if there are any messages -->
+                {% for message in messages %}
+                <!-- loop through the messages -->
+                <p>{{message}}</p>
+                <!-- display each message in a paragraph tag -->
+            {% endfor %} {% endif %} {% endwith %}
+        </div>
         <form action='/partner/login' method="post">
             <label for="email">Email</label>
             <input type="text" name="email" placeholder="email@site.com" required>
@@ -52,10 +59,62 @@
             <input type="password" name="password" placeholder="Password1!" required>
             <input type="submit" value="Login Partner Account">
         </form>
-
+    </div>
     {%endif%}
     {%if session['login']=='customer'%}
-    <p>Hi Customer</p>
+    <div>
+        <p>Hi Customer</p>
+        <h2>New Customer</h2>
+        <form action='/customer/register' method="post">
+            <label for="first_name">First Name</label>
+            <input type="text" name="first_name" placeholder="John" required>
+            <label for="last_name">Last Name</label>
+            <input type="text" name="last_name" placeholder="Doe" required>
+            <label for="email">Email</label>
+            <input type="text" name="email" placeholder="email@site.com" required>
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Password1!" required>
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" name="confirm_password" placeholder="same" required>
+            <label for="address">Address</label>
+            <input type="text" name="address" placeholder="123 Streetname St, Cityname, State" required>
+            <label for="phone_number">Phone Number</label>
+            <input type="text" name='phone_number' placeholder="123-456-7890" required>
+            <select name="company_id" onchange="companyCheck(this);">
+                <option selected value="">NA</option>
+                <option value="New">New Company</option>
+                {%if companies%}
+                    {%for company in companies%}
+                    <option value="company.id">{{company.name}}</option>
+                    {%endfor%}
+                {%endif%}
+            </select>
+            <div id=newCustomerCompany style="display:none;">
+                <label>Company Name (To Be Added To Our System)</label>
+                <input type="text" name="new_company_name">
+            </div>
+            <input type="submit" value="Register New Partner Account">
+        </form>
+        <h2>Returning Partner</h2>
+        <div class=flash>
+            {% with messages = get_flashed_messages(category_filter=['login']) %}
+                <!-- declare a variable called messages -->
+                {% if messages %}
+                <!-- check if there are any messages -->
+                {% for message in messages %}
+                <!-- loop through the messages -->
+                <p>{{message}}</p>
+                <!-- display each message in a paragraph tag -->
+            {% endfor %} {% endif %} {% endwith %}
+        </div>
+        <form action='/customer/login' method="post">
+            <label for="email">Email</label>
+            <input type="text" name="email" placeholder="email@site.com" required>
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Password1!" required>
+            <input type="submit" value="Login Partner Account">
+        </form>
+    </div>
     {%endif%}
 </body>
 </html>

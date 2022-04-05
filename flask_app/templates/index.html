@@ -8,11 +8,13 @@
 </head>
 <body>
     <h1>Landing Page</h1>
-    <form action="/partner/login">
+    <form action="/loginpage/partner" method="post">
         <Input type="submit" value="I am a Partner"></Input>
+        <input type="hidden" name="partner" value="partner">
     </form>
-    <form action="/customer/login">
+    <form action="/loginpage/customer" method="post">
         <Input type="submit" value="I am a Customer"></Input>
+        <input type="hidden" name="customer" value="customer">
     </form>
 </body>
 </html>

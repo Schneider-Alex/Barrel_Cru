@@ -5,16 +5,14 @@ from flask_app.models import partner
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
-
+@app.route('/loginpage/partner',methods=['POST','GET'])
+def partners_login_page():
+    session['login']="partner"
+    return render_template('login.html')
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
-@app.route('/partner/login')
-def partners_login_page():
-    session['login']="partner"
-    return render_template('login.html')
 
 @app.route('/partner/register', methods=['POST'])
 def register_partner():
@@ -22,7 +20,7 @@ def register_partner():
         print('partner has registered')
         # partner.Partner.login(request.form)
         return render_template('dashboard.html')
-    return redirect('/partner/login')
+    return redirect('/loginpage/partner')
 
 @app.route('/partner/login', methods=['POST'])
 def login_partner():
