@@ -19,7 +19,7 @@ class Partner:
         self.id = data['id']
         self.name = data['name']
         self.email = data['email']
-        # self.password = data['password']
+        self.password = data['password']
         self.phone_number=data['phone_number']
         self.address=data['address']
         # self.created_at = data['created_at']
@@ -154,12 +154,10 @@ class Partner:
         partner = Partner.get_partner_by_email(data)
         if partner:
             if bcrypt.check_password_hash(partner.password, data['password']):
-                session['coach_id'] = coach.id
-                session['first_name'] = coach.first_name
-                session['coach'] = 1
+                session['partner_id'] = partner.id
+                session['name'] = partner.name
+                session['partner'] = 1
                 return True
         flash('Invalid', 'login')
         return False
 
-        
-# Make a parse data function.  Takes care of much of the logic in contollers

@@ -16,7 +16,7 @@
                     <!-- loop through the messages -->
                     <p>{{message}}</p>
                     <!-- display each message in a paragraph tag -->
-                    {% endfor %} {% endif %} {% endwith %}
+    {% endfor %} {% endif %} {% endwith %}
     <p>here</p>
     {%if session['login']=='partner'%}
         <h2>New Partner</h2>
@@ -34,6 +34,23 @@
             <label for="phone_number">Phone Number</label>
             <input type="text" name="phone_number" placeholder="123-456-7890" required>
             <input type="submit" value="Register New Partner Account">
+        </form>
+        <h2>Returning Partner</h2>
+        {% with messages = get_flashed_messages(category_filter=['login']) %}
+                    <!-- declare a variable called messages -->
+                    {% if messages %}
+                    <!-- check if there are any messages -->
+                    {% for message in messages %}
+                    <!-- loop through the messages -->
+                    <p>{{message}}</p>
+                    <!-- display each message in a paragraph tag -->
+    {% endfor %} {% endif %} {% endwith %}
+        <form action='/partner/login' method="post">
+            <label for="email">Email</label>
+            <input type="text" name="email" placeholder="email@site.com" required>
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Password1!" required>
+            <input type="submit" value="Login Partner Account">
         </form>
 
     {%endif%}

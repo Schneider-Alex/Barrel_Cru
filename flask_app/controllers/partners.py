@@ -24,4 +24,14 @@ def register_partner():
         return render_template('dashboard.html')
     return redirect('/partner/login')
 
+@app.route('/partner/login', methods=['POST'])
+def login_partner():
+    if partner.Partner.login(request.form):
+        return render_template('dashboard.html')
+    return redirect('/partner/login')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
 
