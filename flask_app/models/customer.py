@@ -10,10 +10,9 @@ bcrypt = Bcrypt(app)
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
 PASSWORD_REGEX = re.compile(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$')
 NAME_REGEX = re.compile('^(/^[A-Za-z]+$/)')
-PHONE_REGEX = re.compile(".*?(\(?\d{3}\D{0,3}\d{3}\D{0,3}\d{4}).*?")
 
  #CREATE model
-class Partner:
+class Customer:
     db = 'Barrel_Cru'
     def __init__(self, data): 
         self.id = data['id']
@@ -22,8 +21,9 @@ class Partner:
         # self.password = data['password']
         self.phone_number=data['phone_number']
         self.address=data['address']
-        # self.created_at = data['created_at']
-        # self.updated_at = data['updated_at']
+        self.company=data['customer_company_id']
+        self.created_at = data['created_at']
+        self.updated_at = data['updated_at']
 
 
 #CREATE model
@@ -41,38 +41,26 @@ class Partner:
         if input['password'] != input['confirm_password']:
             flash('passwords do not match', 'register')
             is_valid = False
-        if not PHONE_REGEX.match(input['phone_number']):
-            flash('phone number must be in the form 123-456-7890', 'register')
-            is_valid = False
         if not EMAIL_REGEX.match(input['email']): 
             flash("Invalid email address!", 'register')
             is_valid = False   
-        if Partner.get_partner_by_email(input):
+        if Customer.get_partner_by_email(input):
             flash('An account already exists with this email', 'register')
             is_valid = False
         return is_valid
-    
-    @staticmethod
-    def parsed_data(data):
-        parsed_data={
-            'name': data['name'],
-            'email': data['email'].lower().strip(),
-            'password' : bcrypt.generate_password_hash(data['password']),
-            'phone_number': data['phone_number'],
-            'address' : data['address']
-        }
-        return parsed_data
 
     @classmethod
-    def register_partner(cls, data):
+    def register_customer(cls, data):
         if not cls.validate_submission(data):
             return False
         data = cls.parsed_data(data)
         query= '''
-        Insert INTO partners (name, email, password, phone_number, address)
-        VALUES (%(name)s, %(email)s,%(password)s, %(phone_number)s, %(address)s)
+        Insert INTO customers (first_name, last_name, email, password)
+        VALUES (%(first_name)s, %(last_name)s, %(email)s,%(password)s)
         ;'''
         coach_id = connectToMySQL(cls.db).query_db(query,data)
+        session['coach_id'] = coach_id
+        session['first_name'] = data['first_name']
         # # session['coach']=True
         # # removed this functionality so that coaches must log in after creating account
         return coach_id
@@ -81,7 +69,7 @@ class Partner:
     def get_partner_by_email(cls, data):
         query= '''
         SELECT *
-        FROM partners
+        FROM customers
         WHERE email = %(email)s
         ;'''
         result =  connectToMySQL(cls.db).query_db(query, data)
@@ -94,7 +82,7 @@ class Partner:
     def get_all_partners(cls):  
         query = """
         SELECT *
-        FROM partners
+        FROM customers
         ;"""
         result = connectToMySQL(cls.db).query_db(query)
         coaches = []
@@ -151,9 +139,10 @@ class Partner:
 
     @classmethod
     def login(cls,data):
-        partner = Partner.get_partner_by_email(data)
-        if partner:
-            if bcrypt.check_password_hash(partner.password, data['password']):
+        coach = Coach.get_coach_by_email(data)
+        if coach:
+            # this should change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if bcrypt.check_password_hash(coach.password, data['password']):
                 session['coach_id'] = coach.id
                 session['first_name'] = coach.first_name
                 session['coach'] = 1
@@ -163,3 +152,12 @@ class Partner:
 
         
 # Make a parse data function.  Takes care of much of the logic in contollers
+    @staticmethod
+    def parsed_data(data):
+        parsed_data={
+            'first_name': data['first_name'],
+            'last_name': data['last_name'],
+            'email': data['email'].lower().strip(),
+            'password' : bcrypt.generate_password_hash(data['password']),
+        }
+        return parsed_data
