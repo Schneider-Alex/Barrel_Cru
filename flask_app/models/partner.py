@@ -3,7 +3,7 @@ from flask import flash, session, request
 from flask_app import app
 import re	# the regex module
 from flask_bcrypt import Bcrypt   
-from flask_app.models import 
+# from flask_app.models import 
 
 bcrypt = Bcrypt(app)
 
