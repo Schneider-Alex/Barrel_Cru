@@ -1,0 +1,1 @@
+INSERT INTO classifications (type) VALUES ("Vodka"),( "Gin"), ("Rum"), ("Bourbon"), ("Whiskey"), ("Wine"),("Beer")

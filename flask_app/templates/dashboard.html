@@ -3,4 +3,10 @@
 <p>{{session.name}}</p>
 <a href="/logout">Log Out</a>
 
+{%if session["partner"]%}
+<div>
+<a href="/partner/create/product">Add New Product</a>
+</div>
+{%endif%}
+
 {% endblock %}

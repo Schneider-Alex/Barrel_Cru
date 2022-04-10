@@ -108,25 +108,6 @@ class Partner:
             coaches.append(cls(row))
         return coaches
 
-    # @classmethod
-    # def get_coach_by_id(cls, id):
-    #     data= {'id': id}
-    #     query = '''SELECT * FROM coaches WHERE id = %(id)s;'''
-    #     results = connectToMySQL(cls.db).query_db(query, data)
-    #     if len(results) < 1:
-    #         return False
-    #     return cls(results[0])
-
-    # @classmethod
-    # def update_coach(cls, data):
-    #     print('here I am')
-    #     query = """
-    #     UPDATE coaches
-    #     SET first_name = %(first_name)s, last_name = %(last_name)s,  email = %(email)s
-    #     WHERE id = %(id)s
-    #     ;"""
-    #     result = connectToMySQL(cls.db).query_db(query, data)
-    #     return result
 
     @staticmethod
     def validate_update(input):
