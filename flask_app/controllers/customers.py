@@ -15,5 +15,5 @@ def register_customer():
     print(request.form)
     if customer.Customer.register_customer(request.form):
         print('customer has registered')
-        return render_template('dashboard.html')
+        return redirect('/dashboard')
     return redirect('/loginpage/customer')

@@ -1,0 +1,25 @@
+{%extends "layout.html"%}{%block body%}
+<div>
+<p>{{session.name}}</p>
+<a href="/logout">Log Out</a>
+<a href='/dashboard'>Dashboard</a>
+</div>
+
+<form action="/product/new" method="post">
+        <input type="hidden" name="partner_id" value="{{session['partner_id']}}">
+        <input type="hidden" name="verified" value="0">
+        <Label for="name">Product Name:<input type="text" name="name" class="form-control" required></Label>
+        <Label for="description">Description:<input type="text" name="description" class="form-control" required></Label>
+        <select name="classification_id">
+            <option selected value="">NA</option>
+                {%for classification in classifications%}
+                <option value="{{classification.id}}">{{classification.type}}</option>
+                {%endfor%}
+        </select>
+        <Label for="volume">Volume in milliliters(ml): <input type="text" name="volume" class="form-control" required></Label>
+        <Label for="inventory_quantity">Inventory Quantity(How many units of this specific volume are in stock):<input type="text" name="inventory_quantity" class="form-control" required></Label>
+        <Label for="price">Price per unit of above volume (USD$)<input type="text" name="price" class="form-control" default="NA"required ></Label>
+        <input type="submit" value="Add Product" class="btn btn-primary">
+</form>
+
+{% endblock %}

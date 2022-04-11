@@ -3,7 +3,7 @@ from flask import flash, session, request
 from flask_app import app
 import re	# the regex module
 from flask_bcrypt import Bcrypt   
-from flask_app.models import company
+from flask_app.models import company, product
 
 bcrypt = Bcrypt(app)
 
@@ -76,12 +76,9 @@ class Customer:
 
     @classmethod
     def register_customer(cls, data):
-        print ("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", data)
         if not cls.validate_submission(data):
             return False
-        print('********************************************',data)
         data = cls.customer_parsed_data(data)
-        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',data)
         if data['company_id'] == '':
             data['company_id']= None 
         if data['company_id'] == 'New':

@@ -1,12 +1,10 @@
 {%extends "layout.html"%}{%block body%}
-<p>Dashboard</p>
+<div>
 <p>{{session.name}}</p>
 <a href="/logout">Log Out</a>
-
-{%if session["partner"]%}
-<div>
-<a href="/partner/create/product">Add New Product</a>
+<a href='/dashboard'>Dashboard</a>
 </div>
-{%endif%}
 
+<h2>Successful {{session['success_action']}}</h2>
+<p>Hello</p>]
 {% endblock %}
