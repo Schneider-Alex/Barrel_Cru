@@ -1,5 +1,5 @@
 from flask_app import app
-from flask_app.controllers import partners, customers
+from flask_app.controllers import partners, customers, products
 #Remember to import all CONTROLLERS!!!
 
 if __name__ == "__main__":

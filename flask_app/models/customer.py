@@ -76,12 +76,9 @@ class Customer:
 
     @classmethod
     def register_customer(cls, data):
-        print ("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", data)
         if not cls.validate_submission(data):
             return False
-        print('********************************************',data)
         data = cls.customer_parsed_data(data)
-        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',data)
         if data['company_id'] == '':
             data['company_id']= None 
         if data['company_id'] == 'New':

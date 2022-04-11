@@ -14,6 +14,8 @@ def partners_login_page():
 def dashboard():
     return render_template('dashboard.html')
 
+
+
 @app.route('/')
 def index():
     return render_template('index.html')

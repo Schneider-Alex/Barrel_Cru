@@ -1,0 +1,10 @@
+{%extends "layout.html"%}{%block body%}
+<div>
+<p>{{session.name}}</p>
+<a href="/logout">Log Out</a>
+<a href='/dashboard'>Dashboard</a>
+</div>
+
+<h2>Successful {{session['success_action']}}</h2>
+
+{% endblock %}
