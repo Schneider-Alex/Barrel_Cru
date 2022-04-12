@@ -9,4 +9,14 @@
 </div>
 {%endif%}
 
+
+<table>
+{%for product in all_products%}
+<tr>
+    <td>{{product.name}} for sale by {{product.sold_by}}</td>
+    <td> ${{product.price}} per {{product.volume}}ml</td>
+</tr>
+{%endfor%}
+</table>
+
 {% endblock %}

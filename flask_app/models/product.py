@@ -11,13 +11,16 @@ class Product:
         self.partner_id = data["partner_id"]
         self.name = data["name"]
         self.description=data['description']
-        self.classification_id = data["classification"]
+        self.classification_id = data["classification_id"]
         self.volume = data["volume"]
         self.inventory_quantity = data["inventory_quantity"]
         self.price = data["price"]
         self.verified=data['verified']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.sold_by = ''
+        self.classifcation=''
+
 
     @staticmethod
     def product_parsed_data(data):
@@ -56,3 +59,24 @@ class Product:
         if not product_id:
             flash('Error, Please Reenter Information')
         return product_id
+
+    @classmethod
+    def get_all_partners_products(cls):
+        query = """
+        SELECT * FROM products
+        JOIN classifications ON products.classification_id = classifications.id
+        JOIN partners ON products.partner_id = partners.id
+        """
+        results=connectToMySQL(cls.db).query_db(query)
+        products=[]
+        if results:
+            for row in results:
+                product=cls(row)
+                product.sold_by= row['partners.name']
+                product.classification=row['type']
+                products.append(product)
+        return products
+    
+
+        
+        return

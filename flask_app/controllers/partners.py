@@ -12,7 +12,7 @@ def partners_login_page():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    return render_template('dashboard.html',all_products=product.Product.get_all_partners_products())
 
 
 
@@ -23,8 +23,7 @@ def index():
 @app.route('/partner/register', methods=['POST'])
 def register_partner():
     if partner.Partner.register_partner(request.form):
-        print('partner has registered')
-        # partner.Partner.login(request.form)
+        partner.Partner.login(request.form)
         return redirect('/dashboard')
     return redirect('/loginpage/partner')
 

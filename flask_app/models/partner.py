@@ -79,8 +79,10 @@ class Partner:
         VALUES (%(name)s, %(email)s,%(password)s, %(phone_number)s, %(address)s)
         ;"""
         partner_id = connectToMySQL(cls.db).query_db(query, data)
-        # # session['coach']=True
-        # # removed this functionality so that coaches must log in after creating account
+        # partner=cls(Partner.get_partner_by_email(data['email']))
+        # session["partner_id"] = partner.id
+        # session["name"] = partner.name
+        # session["partner"] = 1
         return partner_id
 
     @classmethod
@@ -133,6 +135,7 @@ class Partner:
 
     @classmethod
     def login(cls, data):
+        print('running log in')
         partner = Partner.get_partner_by_email(data)
         if partner:
             if bcrypt.check_password_hash(partner.password, data["password"]):
