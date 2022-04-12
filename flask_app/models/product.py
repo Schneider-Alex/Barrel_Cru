@@ -32,7 +32,7 @@ class Product:
             'volume' : data["volume"],
             'inventory_quantity' : data["inventory_quantity"],
             'price' : data["price"],
-            'verified':data['verified'],
+            'verified':format(int(data['verified']),"b")
         }
         return parsed_data
 
