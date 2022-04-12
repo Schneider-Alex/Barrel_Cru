@@ -72,9 +72,10 @@ class Product:
         if results:
             for row in results:
                 product=cls(row)
-                product.sold_by= row['partners.name']
-                product.classification=row['type']
-                products.append(product)
+                if int(product.inventory_quantity) > 0:
+                    product.sold_by= row['partners.name']
+                    product.classification=row['type']
+                    products.append(product)
         return products
     
 

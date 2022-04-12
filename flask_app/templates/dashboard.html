@@ -10,11 +10,16 @@
 {%endif%}
 
 
+
+
 <table>
 {%for product in all_products%}
 <tr>
     <td>{{product.name}} for sale by {{product.sold_by}}</td>
     <td> ${{product.price}} per {{product.volume}}ml</td>
+    {%if session["cusotmer"]%}
+    <td><a>Place Order</a> <a>Request Sample</a>   </td>
+    {%endif%}
 </tr>
 {%endfor%}
 </table>
