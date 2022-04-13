@@ -163,6 +163,8 @@ class Customer:
                 session['customer_id'] = customer.id
                 session['first_name'] = customer.first_name
                 session['customer'] = 1
+                if 'cart' not in session:
+                    session['cart']=[]
                 return True
         flash('Invalid', 'login')
         return False

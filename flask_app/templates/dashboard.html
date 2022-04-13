@@ -18,7 +18,7 @@
     <td>{{product.name}} for sale by {{product.sold_by}}</td>
     <td> ${{product.price}} per {{product.volume}}ml</td>
     {%if session["customer"]%}
-    <td><div id="order{{product.id}}"></div><button onclick=orderButton({{product.id}})>Place Order/Request Sample</button></td>
+    <td><div id="order{{product.id}}"><button onclick=orderButton({{product.id}})>Place Order/Request Sample</button></div></td>
     {%endif%}
 </tr>
 {%endfor%}

@@ -1,6 +1,7 @@
 from flask_app import app
 from flask import render_template, redirect, request, session, flash, url_for
-from flask_app.models import customer, company
+from flask_app.controllers.partners import dashboard
+from flask_app.models import customer, company,product
 # from flask_app.controllers import
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
@@ -24,4 +25,13 @@ def login_customer():
     if customer.Customer.login(request.form):
         return redirect('/dashboard')
     return redirect('/loginpage/customer')
+
+@app.route('/customer/add_to_cart', methods=['POST'])
+def add_product_to_cart():
+    print('????????????????????????',session['cart'])
+    session['cart'].append(request.form['product_id'])
+    session['cart'].append(request.form['quantity'])
+    print('*******************************',session['cart'])
+    return redirect('/dashboard')
+
 
