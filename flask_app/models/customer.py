@@ -20,12 +20,13 @@ class Customer:
         self.first_name = data['first_name']
         self.last_name = data['last_name']
         self.email = data['email']
-        # self.password = data['password']
+        self.password = data['password']
         self.phone_number=data['phone_number']
         self.address=data['address']
         self.company_id=data['company_id']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        
 
 
 #CREATE model
@@ -89,10 +90,6 @@ class Customer:
         VALUES (%(first_name)s, %(last_name)s, %(email)s,%(password)s,%(phone_number)s,%(address)s,%(company_id)s)
         ;'''
         coach_id = connectToMySQL(cls.db).query_db(query,data)
-        session['coach_id'] = coach_id
-        session['first_name'] = data['first_name']
-        # # session['coach']=True
-        # # removed this functionality so that coaches must log in after creating account
         return coach_id
 
     @classmethod
@@ -120,28 +117,19 @@ class Customer:
             coaches.append(cls(row))
         return coaches
 
-    @classmethod
-    def get_coach_by_id(cls, id):
-        data= {'id': id}
-        query = '''SELECT * FROM coaches WHERE id = %(id)s;'''
-        results = connectToMySQL(cls.db).query_db(query, data)
-        if len(results) < 1:
-            return False
-        return cls(results[0])
 
 
 
-
-    @classmethod
-    def update_coach(cls, data):
-        print('here I am')
-        query = """
-        UPDATE coaches
-        SET first_name = %(first_name)s, last_name = %(last_name)s,  email = %(email)s
-        WHERE id = %(id)s
-        ;"""
-        result = connectToMySQL(cls.db).query_db(query, data)
-        return result
+    # @classmethod
+    # def update_coach(cls, data):
+    #     print('here I am')
+    #     query = """
+    #     UPDATE coaches
+    #     SET first_name = %(first_name)s, last_name = %(last_name)s,  email = %(email)s
+    #     WHERE id = %(id)s
+    #     ;"""
+    #     result = connectToMySQL(cls.db).query_db(query, data)
+    #     return result
 
 
     @staticmethod
@@ -169,13 +157,14 @@ class Customer:
 
     @classmethod
     def login(cls,data):
-        coach = Coach.get_coach_by_email(data)
-        if coach:
-            # this should change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            if bcrypt.check_password_hash(coach.password, data['password']):
-                session['coach_id'] = coach.id
-                session['first_name'] = coach.first_name
-                session['coach'] = 1
+        customer = Customer.get_customer_by_email(data)
+        if customer:
+            if bcrypt.check_password_hash(customer.password, data['password']):
+                session['customer_id'] = customer.id
+                session['first_name'] = customer.first_name
+                session['customer'] = 1
+                if 'cart' not in session:
+                    session['cart']=[]
                 return True
         flash('Invalid', 'login')
         return False

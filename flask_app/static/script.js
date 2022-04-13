@@ -7,3 +7,12 @@ function companyCheck(that) {
         document.getElementById("newCustomerCompany").style.display = "none";
     }
 }
+function orderButton(id){
+    document.getElementById(`order${id}`).innerHTML=`<form action="/customer/add_to_cart" method="post">
+    <input type="hidden" name="product_id" value="${id}"
+    <label for"quantity">Quantity:</label>
+    <input type="number" value="0" name="quantity">
+    <input type="submit" value="Add to Cart">
+    </form>`
+    console.log(id)
+}

@@ -12,6 +12,7 @@ def partners_login_page():
 
 @app.route('/dashboard')
 def dashboard():
+    print(session['cart'])
     return render_template('dashboard.html',all_products=product.Product.get_all_partners_products())
 
 
