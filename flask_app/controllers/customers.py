@@ -28,10 +28,7 @@ def login_customer():
 
 @app.route('/customer/add_to_cart', methods=['POST'])
 def add_product_to_cart():
-    print('????????????????????????',session['cart'])
-    session['cart'].append(request.form['product_id'])
-    session['cart'].append(request.form['quantity'])
-    print('*******************************',session['cart'])
+    product.Product.add_to_cart(request.form)
     return redirect('/dashboard')
 
 

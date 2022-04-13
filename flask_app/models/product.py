@@ -78,5 +78,11 @@ class Product:
                     products.append(product)
         return products
     
-
+    @classmethod
+    def add_to_cart(cls, data):
+        array1=session['cart']
+        array1.append(data['product_id'])
+        array1.append(data['quantity'])
+        session['cart']=array1
+        return True
 
