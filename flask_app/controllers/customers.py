@@ -15,5 +15,13 @@ def register_customer():
     print(request.form)
     if customer.Customer.register_customer(request.form):
         print('customer has registered')
+        customer.Customer.login(request.form)
         return redirect('/dashboard')
     return redirect('/loginpage/customer')
+
+@app.route('/customer/login',methods=['POST'])
+def login_customer():
+    if customer.Customer.login(request.form):
+        return redirect('/dashboard')
+    return redirect('/loginpage/customer')
+

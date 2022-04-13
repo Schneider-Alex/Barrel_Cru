@@ -7,3 +7,6 @@ function companyCheck(that) {
         document.getElementById("newCustomerCompany").style.display = "none";
     }
 }
+function orderButton(id){
+    document.getElementById(`order${id}`).innerHTML='Order Ready to Place'
+}

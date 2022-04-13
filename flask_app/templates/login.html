@@ -96,7 +96,7 @@
             </div>
             <input type="submit" value="Register New Partner Account">
         </form>
-        <h2>Returning Partner</h2>
+        <h2>Returning Customer</h2>
         <div class=flash>
             {% with messages = get_flashed_messages(category_filter=['login']) %}
                 <!-- declare a variable called messages -->
@@ -113,7 +113,7 @@
             <input type="text" name="email" placeholder="email@site.com" required>
             <label for="password">Password</label>
             <input type="password" name="password" placeholder="Password1!" required>
-            <input type="submit" value="Login Partner Account">
+            <input type="submit" value="Login Customer Account">
         </form>
     </div>
     {%endif%}
