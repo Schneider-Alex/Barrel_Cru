@@ -117,19 +117,28 @@ class Customer:
             coaches.append(cls(row))
         return coaches
 
+    @classmethod
+    def get_my_cart(cls):
+        cart=[]
+        for i in range (0,len(session['cart']),2):
+            data={}
+            data={
+                'id' : session['cart'][i]
+            }
+            query= '''
+            SELECT *
+            FROM products
+            WHERE id = %(id)s
+            ;'''
+            result = connectToMySQL(cls.db).query_db(query,data)
+            print(result)
+            if result:
+                _product=product.Product(result[0])
+                _product.quantity=session['cart'][i+1]
+                cart.append(_product)
+        print(cart)
+        return cart
 
-
-
-    # @classmethod
-    # def update_coach(cls, data):
-    #     print('here I am')
-    #     query = """
-    #     UPDATE coaches
-    #     SET first_name = %(first_name)s, last_name = %(last_name)s,  email = %(email)s
-    #     WHERE id = %(id)s
-    #     ;"""
-    #     result = connectToMySQL(cls.db).query_db(query, data)
-    #     return result
 
 
     @staticmethod
@@ -144,13 +153,6 @@ class Customer:
         if not EMAIL_REGEX.match(input['email']): 
             flash("Invalid email address!", 'login')
             is_valid = False   
-        # if len(input['bio']) < 1:
-        #     flash('bio must enter at least 20 characters')
-        #     is_valid = False
-        # if len(input['coach_city']) < 1:
-        #     flash('city must enter at least 1 characters')
-        #     is_valid = False
-        ##validation for state selector
         return is_valid
         # Check to see if email already in db
 

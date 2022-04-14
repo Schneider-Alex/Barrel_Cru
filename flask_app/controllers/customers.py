@@ -31,4 +31,11 @@ def add_product_to_cart():
     product.Product.add_to_cart(request.form)
     return redirect('/dashboard')
 
+@app.route('/customer/view/cart')
+def view_cart():
+    my_cart=customer.Customer.get_my_cart()
+    return render_template('view_cart.html',my_cart=my_cart)
 
+@app.route('customer/remove_product_from_cart')
+def remove_item_from_cart():
+    return redirect('/customer/view/cart')

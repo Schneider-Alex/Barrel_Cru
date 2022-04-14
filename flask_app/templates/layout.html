@@ -14,7 +14,7 @@
 </head>
 <body>
     <p>Nav Bar Place Holder</p>
-    <p>Shopping Cart{{session['cart']|length}}</p>
+    <a href='/customer/view/cart'><img src="{{url_for('static', filename='assets/shopping_cart.png')}}" alt="Shopping Cart IMG" width="30" height="24"></a><p>Shopping Cart{{session['cart']|length}}</p>
     {% block body %}{% endblock %}
 </body>
 </html>
