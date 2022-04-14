@@ -1,0 +1,22 @@
+{%extends "layout.html"%}{%block body%}
+<p>{{session.name}}</p>
+<a href="/logout">Log Out</a>
+<p> cart page</p>
+
+<table>
+<tr>
+    <th>Product</th>
+    <th>Volume</th>
+    <th>Selected Quantity</th>
+    <th></th>
+</tr>
+    {%for product in my_cart%}
+<tr>
+    <td>{{product.name}} - {{product.description}}</td>
+    <td>{{product.volume}}</td>
+    <td>{{product.quantity}}</td>
+    <td><a href="/customer/remove_product_from_cart/"><img src="https://www.freeiconspng.com/uploads/delete-icon-11.png" width="20" alt="Delete Icon" /></a></td>
+</tr>
+    {%endfor%}
+</table>
+{% endblock %}
